@@ -1,0 +1,10 @@
+version: '3.0'
+
+services:
+  url-phising:
+    build: .
+    command: python3 app.py
+    volumes:
+      - .:/app
+    ports:
+      - 5678:5678
