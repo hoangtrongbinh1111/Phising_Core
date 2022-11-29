@@ -14,6 +14,11 @@ def test(output_folder, X_test, y_test, epoch_num=None):
 
     model = load_model(output_folder+'/'+model_path)
     result=model.evaluate(X_test,Y_test)
-    return {
-        'message': 'Model: '+model_path+'\nAccuracy: '+str(round(result[1]*100,1))+'\nLoss: '+str(round(result[0],2))
+   
+
+    try:
+        return {
+        'message': 'Model: '+model_path+' Accuracy: '+str(round(result[1]*100,1))+' Loss: '+str(round(result[0],2))
     }
+    except:
+        pass

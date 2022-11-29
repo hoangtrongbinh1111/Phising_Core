@@ -5,13 +5,16 @@ import threading
 from threading import Thread
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-# from fastapi_socketio import SocketManager
+# from fastapi_sockeimtio import SocketManager
 import socketio
 import json
 import uvicorn
 import asyncio
-from demo import demo
-SOCKET_BACKEND_URL = 'http://192.168.0.167:6789'
+from demo import demoTrain
+from demo import demoTest
+from demo import demoInfer
+
+SOCKET_BACKEND_URL = 'http://172.20.10.4:6789'
 PORT = 5678
 
 app = FastAPI()
@@ -45,19 +48,44 @@ async def connect():
     # await sio.emit('hello_from_core', "HEllo huyen xinh gai")
 
 async def start_training(data):
-    async for response in demo():
+    # print(data)
+    async for response in demoTrain(data):
         await sio.emit(f'receive_training_process', json.dumps({
             "response": response,
-            "sid": data["sid"]
+            "sid": data["sid"],
+        }))
+        await sio.sleep(0.1)
+
+async def start_testing(data):
+        response = await demoTest(data)
+        await sio.emit(f'receive_testing_process',json.dumps({
+            "response": response,
+            "sid" : data["sid"],
+        }))
+        await sio.sleep(0.1)   
+async def start_infering(data):
+        response = await demoInfer(data)
+        await sio.emit(f'receive_infering_process',json.dumps({
+            "response": response,
+            "sid" : data["sid"],
         }))
         await sio.sleep(0.1)
         
+
+@sio.on("start_testing")
+async def start_testing_listener(data):
+    Thread(target= await start_testing(data)).start()
 
 @sio.on("start_training")
 async def start_training_listener(data):
     Thread(target = await start_training(data)).start()
     # sio.start_background_task(start_training, data)
     # asyncio.create_task(start_training(data))
+
+@sio.on("start_infering")
+async def start_infering_listener(data):
+    Thread(target= await start_infering(data)).start()
+
 
 @sio.event
 async def disconnect():

@@ -9,7 +9,7 @@ def inference(output_folder, data_path, epoch_num=None):
         if Path(x).suffix == '.hdf5':
             if epoch_num==int(x.split('.')[-2].split('-')[-1]):
                 model_path= str(x)
-                break
+                break 
             else:
                 continue
 
@@ -18,7 +18,10 @@ def inference(output_folder, data_path, epoch_num=None):
     start_time=time.time()
     result=model.predict(output_data.get('dataset'))
     end_time=time.time()
-    return {
+    try:
+        return {
         'message': output_data.get('message')+'\nModel: '+model_path+'\nInference time: %2.1fs' %(end_time-start_time),
         'inference_result':result
     }
+    except: 
+        pass
