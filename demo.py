@@ -79,7 +79,7 @@ async def demoInfer(data):
     print('===============================PREPROCESSING...===================================')
     if 'preprocess_output.pkl' not in os.listdir():
         preprocess_output = inference_preprocess(
-            data_path='./data/data.csv', feature_set = data['feature_set'])
+            data_path='./data.csv', feature_set = data['feature_set'])
         joblib.dump(preprocess_output, filename='preprocess_output.pkl')
     else:
         preprocess_output = joblib.load('preprocess_output.pkl')
@@ -91,7 +91,7 @@ async def demoInfer(data):
 
 
     print('===============================INFERENCING...===================================')
-    inference_output=inference(output_folder=OUTPUT_FOLDER, data_path='./data/data.csv', epoch_num=BEST_EPOCH_NUM)
+    inference_output=inference(output_folder=OUTPUT_FOLDER, data_path='./data.csv', epoch_num=BEST_EPOCH_NUM)
 
     try:
         return {

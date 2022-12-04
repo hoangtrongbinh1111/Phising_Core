@@ -14,7 +14,7 @@ from demo import demoTrain
 from demo import demoTest
 from demo import demoInfer
 
-SOCKET_BACKEND_URL = 'http://172.20.10.4:6789'
+SOCKET_BACKEND_URL = 'http://192.168.0.103:6789'
 PORT = 5678
 
 app = FastAPI()

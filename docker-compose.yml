@@ -6,5 +6,6 @@ services:
     command: python3 app.py
     volumes:
       - .:/app
+      - /home/hoangtrongbinh/HoangTrongBinh/ATTT/modelDir:/app/modelDir
     ports:
       - 5678:5678
