@@ -13,8 +13,9 @@ import asyncio
 from demo import demoTrain
 from demo import demoTest
 from demo import demoInfer
+from demo import preProcess
 
-SOCKET_BACKEND_URL = 'http://192.168.0.103:6789'
+SOCKET_BACKEND_URL = 'http://172.18.0.1:6789'
 PORT = 5678
 
 app = FastAPI()
@@ -47,6 +48,14 @@ async def connect():
     print('connection established')
     # await sio.emit('hello_from_core', "HEllo huyen xinh gai")
 
+async def start_preprocess(data):
+    response = await preProcess(data)
+    await sio.emit(f'receive_pre_process',json.dumps({
+            "response": response,
+            "sid" : data["sid"],
+        }))
+    await sio.sleep(0.1)   
+
 async def start_training(data):
     # print(data)
     async for response in demoTrain(data):
@@ -70,17 +79,21 @@ async def start_infering(data):
             "sid" : data["sid"],
         }))
         await sio.sleep(0.1)
-        
 
-@sio.on("start_testing")
-async def start_testing_listener(data):
-    Thread(target= await start_testing(data)).start()
+@sio.on('start_preprocess')
+async def start_preprocess_listener(data):
+    Thread(target=await start_preprocess(data)).start()
 
 @sio.on("start_training")
 async def start_training_listener(data):
     Thread(target = await start_training(data)).start()
     # sio.start_background_task(start_training, data)
     # asyncio.create_task(start_training(data))
+
+@sio.on("start_testing")
+async def start_testing_listener(data):
+    Thread(target= await start_testing(data)).start()
+
 
 @sio.on("start_infering")
 async def start_infering_listener(data):

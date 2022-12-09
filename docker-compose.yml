@@ -6,6 +6,7 @@ services:
     command: python3 app.py
     volumes:
       - .:/app
-      - /home/hoangtrongbinh/HoangTrongBinh/ATTT/modelDir:/app/modelDir
+      - /home/bmdcntt56/Documents/workspace/be_cly_nckh/modelDir:/app/modelDir
+      - /home/bmdcntt56/Documents/workspace/be_cly_nckh/datasetDir:/app/datasetDir
     ports:
       - 5678:5678
