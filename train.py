@@ -35,7 +35,7 @@ def train(X_train, y_train, epoch_num, batch_size, model_type, labId, model_conf
         # output_folder = '/home/ngocnguyen/Documents/workspace/be_cly/A3T-Phising/labs/'+labId+'/log_train'
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
-        filepath = output_folder+"/model-"+model_type+"-epoch-{epoch:02d}.hdf5"
+        filepath = output_folder+"/checkpoint-{epoch}.hdf5"
         checkpoint_callback = ModelCheckpoint(
             filepath, verbose=0,
             save_best_only=False, save_weights_only=False,

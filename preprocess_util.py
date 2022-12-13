@@ -56,9 +56,9 @@ class nlp_class:
 
     def __init__(self):
         self.path_data = ""
-        self.name_keywords = "./data/keywords.txt"
-        self.name_brand_file = "./data/allbrands.txt"
-        self.name_random_model = "./data/gib_model.pki"
+        self.name_keywords = "./keywords.txt"
+        self.name_brand_file = "./allbrands.txt"
+        self.name_random_model = "./gib_model.pki"
 
         model_data = pickle.load(open(self.name_random_model, 'rb'))
         self.model_mat = model_data['mat']
@@ -280,7 +280,7 @@ class WordSplitterClass(object):
     def __init__(self):
 
         self.path_data = ""
-        self.name_brand_file = "./data/allbrands.txt"
+        self.name_brand_file = "./allbrands.txt"
         self.dictionary_en = enchant.DictWithPWL("en_US", self.name_brand_file)
         #self.__file_capitalize(self.path_data, self.name_brand_file)
 

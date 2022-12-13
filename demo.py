@@ -6,8 +6,8 @@ from test import test
 from inference import inference
 import os
 import joblib
-BEST_EPOCH_NUM = 10
-OUTPUT_FOLDER = './output/28 Nov 2022 16h50'
+BEST_EPOCH_NUM = 2
+OUTPUT_FOLDER = './modelDir/0cb3c269-5ffc-4e49-bb36-a1d5cfcce7b7/log_train/model-sequential-epoch-{BEST_EPOCH_NUM}.hdf5'
 
 async def demoTrain(data):
     # print('===============================PREPROCESSING...===================================')
@@ -65,15 +65,13 @@ async def demoTest(data):
     print('===============================TESTING...===================================')
     X_test = preprocess_output.get('X_test')
     y_test = preprocess_output.get('y_test')
-    test_output=test(output_folder=OUTPUT_FOLDER,X_test=X_test,y_test=y_test,epoch_num=BEST_EPOCH_NUM)
-    # print(test_output.get('message'))
+    test_output=test(labId=data['labId'],X_test=X_test,y_test=y_test,epoch_num=data['epoch_selected'])
 
     try:
         return test_output.get('message')
     except: 
         print("error")
     print('===============================TESTED===================================')
-
 
 async def demoInfer(data):
     print('===============================PREPROCESSING...===================================')
@@ -91,7 +89,7 @@ async def demoInfer(data):
 
 
     print('===============================INFERENCING...===================================')
-    inference_output=inference(output_folder=OUTPUT_FOLDER, data_path='./data.csv', epoch_num=BEST_EPOCH_NUM)
+    inference_output=inference(labId=data['labId'], data_path='./data.csv', epoch_num=data['epoch_selected'])
 
     try:
         return {

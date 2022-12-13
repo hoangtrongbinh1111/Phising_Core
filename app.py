@@ -57,19 +57,20 @@ async def start_training(data):
         await sio.sleep(0.1)
 
 async def start_testing(data):
-        response = await demoTest(data)
-        await sio.emit(f'receive_testing_process',json.dumps({
-            "response": response,
-            "sid" : data["sid"],
-        }))
-        await sio.sleep(0.1)   
+    response = await demoTest(data)
+    await sio.emit(f'receive_testing_process',json.dumps({
+        "response": response,
+        "sid" : data["sid"],
+    }))
+    await sio.sleep(0.1)   
 async def start_infering(data):
-        response = await demoInfer(data)
-        await sio.emit(f'receive_infering_process',json.dumps({
-            "response": response,
-            "sid" : data["sid"],
-        }))
-        await sio.sleep(0.1)
+    print(data)
+    response = await demoInfer(data)
+    await sio.emit(f'receive_infering_process',json.dumps({
+        "response": response,
+        "sid" : data["sid"],
+    }))
+    await sio.sleep(0.1)
         
 
 @sio.on("start_testing")
