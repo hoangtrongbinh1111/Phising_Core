@@ -75,3 +75,22 @@ async def demoInfer(data):
     except:
         print('error')
     print('===============================INFERENCED===================================')
+
+
+async def preProcess(data):
+    print('===============================PREPROCESSING...===================================')
+    preprocess_output = train_test_preprocess(data_path=data['data_path'])        
+    datasetId = data['datasetId']
+    dirname = os.path.dirname(__file__)
+    output_folder = f'./datasetDir/{datasetId}/uploads'
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
+    filename = os.path.join(dirname, output_folder)
+    joblib.dump(preprocess_output, filename )
+    return_value = output_folder +'/preprocess_output.pkl'
+    print(return_value)
+    print('===============================PREPROCESSED===================================')
+    return {
+        "datasetId":data['datasetId'],
+        "savePath":return_value
+    }
