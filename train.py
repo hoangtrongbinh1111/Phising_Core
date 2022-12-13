@@ -32,7 +32,7 @@ def train(X_train, y_train, epoch_num, batch_size, model_type, labId, model_conf
                       loss=losses.binary_crossentropy,
                       metrics=[metrics.binary_accuracy])
         output_folder = f'./modelDir/{labId}/log_train'
-        # output_folder = '/home/ngocnguyen/Documents/workspace/be_cly/A3T-Phising/labs/'+labId+'/log_train'
+        
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
         filepath = output_folder+"/checkpoint-{epoch}.hdf5"

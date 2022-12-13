@@ -4,13 +4,13 @@ from preprocess_util import process_url
 import random
 from pathlib import Path
 import time
-def train_preprocess(data_path, model_type="sequential", feature_set='full_set', test_size=0.3, random_state=random.randrange(100), number_records=100):
+def train_test_preprocess(data_path, model_type="sequential", feature_set='full_set', test_size=0.3, random_state=random.randrange(100), number_records=100):
     """Check xem có phải file và đuôi csv không -> đọc file"""
     if Path(data_path).is_file() and Path(data_path).suffix == '.csv':
         data = pd.read_csv(data_path,sep=',').sample(n = 100, random_state = 2)
     """Kiểm tra xem chọn feature set nào"""
     if feature_set=='full_set':
-        """Trích xuất features, bổ sung vào dataset ban đầu"""
+        """Trích xuất features, bổ sung vào dataset ban đầu""" 
         url_dataset = process_url(data)
 
         """Bỏ cột thừa"""
